@@ -2,7 +2,7 @@
 /*
 Plugin Name: TAMHSC Customizations
 Description: Basic customization for wordpress, TAMHSC branded login, disable password reset, etc.
-Version: 1.3.3
+Version: 1.3.4
 Author: Jeremy Tarpley
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
