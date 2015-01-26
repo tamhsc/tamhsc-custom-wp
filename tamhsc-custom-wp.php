@@ -2,7 +2,7 @@
 /*
 Plugin Name: TAMHSC Customizations
 Description: Basic customization for wordpress, TAMHSC branded login, disable password reset, etc.
-Version: 1.4.2
+Version: 1.4.3
 Author: Jeremy Tarpley
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -191,7 +191,7 @@ require plugin_dir_path( __FILE__ ) . 'options.php';
 		    return $message;
 		}
 	}
-	add_filter( 'login_message', 'tamhsc_login_message' );
+	add_filter( 'login_footer', 'tamhsc_login_message' );
 
 
 	//change 'Username' to 'HSC Username' on login page
@@ -239,6 +239,7 @@ require plugin_dir_path( __FILE__ ) . 'options.php';
 				top: 305px;
 				width: 325px;
 				padding: 0 5px;
+				border: 1px solid red;
 			}
 	</style>
 	<?php }
@@ -256,9 +257,6 @@ require plugin_dir_path( __FILE__ ) . 'options.php';
 	}
 	add_filter( 'login_headertitle', 'tamhsc_login_logo_url_title' );
 
-
-
-	/** DEV **/
 
 	/*
 		utility function: check a user's role
@@ -356,4 +354,69 @@ require plugin_dir_path( __FILE__ ) . 'options.php';
 		}
 	}
 	add_action('admin_init', 'tamhsc_imagelink_setup', 10);
+
+
+	/*
+		prevent wordpress wp-KSES and TinyMCE from stripping out tags we want to use
+		based on code available at http://vip.wordpress.com/documentation/register-additional-html-attributes-for-tinymce-and-wp-kses/, https://wpquicktips.wordpress.com/2010/03/12/how-to-change-the-allowed-html-tags-for-wordpress/, http://codex.wordpress.org/Function_Reference/wp_kses
+		allowing youtube and other video embeds and form embeds from macform
+	*/
+	function tamhsc_allow_tags() {
+		global $allowedposttags;
+
+		$allowedposttags["object"] = array(
+			"height" => array(),
+			"width" => array()
+		);
+
+		$allowedposttags["param"] = array(
+			"name" => array(),
+			"value" => array()
+		);
+
+		$allowedposttags["embed"] = array(
+			"src" => array(),
+			"type" => array(),
+			"allowfullscreen" => array(),
+			"allowscriptaccess" => array(),
+			"height" => array(),
+			"width" => array()
+		);
+
+		$allowedposttags['script'] = array(
+			'type' => array(),
+			'src' => array(),
+			'height' => array(),
+			'width' => array()
+		);
+	}
+	add_action( 'init', 'tamhsc_allow_tags' );
+
+	function tamhsc_filter_tiny_mce_before_init( $options ) {
+		if ( ! isset( $options['extended_valid_elements'] ) ) {
+			$options['extended_valid_elements'] = '';
+		} else {
+			$options['extended_valid_elements'] .= ',';
+		}
+
+		if ( ! isset( $options['custom_elements'] ) ) {
+			$options['custom_elements'] = '';
+		} else {
+			$options['custom_elements'] .= ',';
+		}
+
+		$options['extended_valid_elements'] .= 'object[height|width|id|class]';
+		$options['custom_elements']         .= 'object[height|width|id|class]';
+
+		$options['extended_valid_elements'] .= 'param[name|value|id|class]';
+		$options['custom_elements']         .= 'param[name|value|id|class]';
+
+		$options['extended_valid_elements'] .= 'embed[src|type|allowfullscreen|allowscriptaccess|height|width|id|class]';
+		$options['custom_elements']         .= 'embed[src|type|allowfullscreen|allowscriptaccess|height|width|id|class]';
+
+		$options['extended_valid_elements'] .= 'script[type|src|height|width|id|class]';
+		$options['custom_elements']         .= 'script[type|src|height|width|id|class]';
+		return $options;
+	}
+	add_filter('tiny_mce_before_init', 'tamhsc_filter_tiny_mce_before_init');
 ?>
