@@ -2,13 +2,12 @@
 /*
 Plugin Name: TAMHSC Customizations
 Description: Basic customization for wordpress, TAMHSC branded login, disable password reset, etc.
-Version: 1.4.3
+Version: 1.4.4
 Author: Jeremy Tarpley
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 GitHub Plugin URI: https://github.com/tamhsc/tamhsc-custom-wp
 GitHub Branch:     master
-Github Access Token: 700338b6324e0dd6dab74dc71a2cba7a0715204b
 */
 
 

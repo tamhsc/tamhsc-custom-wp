@@ -1,3 +1,7 @@
+# 1.4.4
+
+* Testing github updating
+
 # 1.4.3
 
 * Added ability to allow object, embed, script tags in wordpress
