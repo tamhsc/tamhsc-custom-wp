@@ -79,7 +79,7 @@
 			);
 		});
 	}
-
+	tamhsc_disable_stuff();
 
 
 	// Disable password reset
@@ -196,18 +196,21 @@
 	// Custom login message (code from http://wpsnippy.com/2013/08/how-to-add-custom-text-to-wordpress-login-page/)
 	function tamhsc_login_message( $message ) {
 		if ( empty($message) ){
-			return "
-			<p class='message'>Log in using your TAMHSC username and password.</p>
-			<div id='tamhsc-legal'>
-				Unauthorized use is prohibited; usage may be subject to security testing and monitoring; misuse is subject to criminal prosecution;
-				and users have no expectation of privacy except as otherwise provided by applicable privacy laws.
-			</div>
-			";
+			return "<p class='message'>Log in using your TAMHSC username and password.</p>";
 		} else {
 			return $message;
 		}
 	}
-	add_filter( 'login_footer', 'tamhsc_login_message' );
+	add_filter( 'login_message', 'tamhsc_login_message' );
+
+	function tamhsc_login_footer_legal () {
+		$message = "<div id=\"tamhsc-legal\">
+		Unauthorized use is prohibited; usage may be subject to security testing and monitoring; misuse is subject to criminal prosecution;
+		and users have no expectation of privacy except as otherwise provided by applicable privacy laws.
+		</div>";
+		echo $message;
+	}
+	add_action( 'login_footer', 'tamhsc_login_footer_legal' );
 
 
 
@@ -250,14 +253,10 @@
 			}
 			#tamhsc-legal {
 				display: block;
-				float: left;
 				height: 120px;
-				margin-bottom: -120px;
-				position: relative;
-				top: 305px;
 				width: 325px;
-				padding: 0 5px;
-				border: 1px solid red;
+				margin: 20px auto 10px auto;
+				padding: 0 5px 0 15px;
 			}
 		</style>
 	<?php }
