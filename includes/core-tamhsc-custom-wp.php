@@ -1,35 +1,4 @@
 <?php
-/*
-	The core plugin class.
-*/
-class tamhsc_custom_wp {
-
-
-	// Define the core functionality of the plugin
-	public function __construct() {
-		$this->tamhsc_check_user_role()
-		$this->tamhsc_login_obscure();
-		$this->tamhsc_disable_stuff();
-		$this->tamhsc_disable_reset_lost_password();
-		$this->tamhsc_remove_post_format()
-		$this->tamhsc_remove_post_meta_boxes()
-		$this->tamhsc_custom_admin_logo()
-		$this->tamhsc_hide_menus_from_nonadmin()
-		$this->tamhsc_blog_favicon()
-		$this->tamhsc_remove_dashboard_widgets()
-		$this->tamhsc_login_message( $message )
-		$this->tamhsc_username_text( $translated )
-		$this->tamhsc_login_logo()
-		$this->tamhsc_login_logo_url()
-		$this->tamhsc_login_logo_url_title()
-		$this->tamhsc_hide_update_notice()
-		$this->tamhsc_remove_appearance_submenus()
-		$this->tamhsc_image_link_setup()
-		$this->tamhsc_allow_tags()
-		$this->tamhsc_filter_tiny_mce_before_init()
-	}
-
-
 
 	/**************Public Functions**************/
 
@@ -37,7 +6,7 @@ class tamhsc_custom_wp {
 		Utility function: check a user's role
 		based on code at http://docs.appthemes.com/tutorials/wordpress-check-user-role-function/
 	*/
-	public function tamhsc_check_user_role( $role, $user_id = null ) {
+	function tamhsc_check_user_role( $role, $user_id = null ) {
 		if ( is_numeric( $user_id ) )
 		$user = get_userdata( $user_id );
 		else
@@ -55,13 +24,13 @@ class tamhsc_custom_wp {
 	/**************Security basics**************/
 
 	// Obscure login screen error messages from http://www.wpfunction.me/
-	private function tamhsc_login_obscure(){ return '<strong>Sorry</strong> your login failed!'; }
+	function tamhsc_login_obscure(){ return '<strong>Sorry</strong> your login failed!'; }
 	add_filter( 'login_errors', 'tamhsc_login_obscure' );
 
 
 
 	// Disable functionality that we don't use or don't need.
-	private function tamhsc_disable_stuff() {
+	function tamhsc_disable_stuff() {
 		// Disable the theme / plugin text editor in Admin
 		define('DISALLOW_FILE_EDIT', true);
 
@@ -114,7 +83,7 @@ class tamhsc_custom_wp {
 
 
 	// Disable password reset
-	private function tamhsc_disable_reset_lost_password() {
+	function tamhsc_disable_reset_lost_password() {
 		return false;
 	}
 	add_filter( 'allow_password_reset', 'tamhsc_disable_reset_lost_password');
@@ -126,7 +95,7 @@ class tamhsc_custom_wp {
 	/**************Generic interface clean up**************/
 
 	// Remove support for post formats
-	private function tamhsc_remove_post_format() {
+	function tamhsc_remove_post_format() {
 		// This will remove support for post formats on ALL Post Types
 		remove_theme_support( 'post-formats' );
 		add_filter( 'show_post_format_ui', '__return_false' );
@@ -137,7 +106,7 @@ class tamhsc_custom_wp {
 
 
 
-	private function tamhsc_remove_post_meta_boxes() {
+	function tamhsc_remove_post_meta_boxes() {
 		/* Custom fields meta box. */
 		remove_meta_box( 'postcustom', 'post', 'normal' );
 
@@ -153,7 +122,7 @@ class tamhsc_custom_wp {
 
 
 	// Custom admin dashboard header logo
-	private function tamhsc_custom_admin_logo() {
+	function tamhsc_custom_admin_logo() {
 		echo '<style type="text/css">
 			#wpcontent #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item .ab-icon {
 				display: block;
@@ -175,7 +144,7 @@ class tamhsc_custom_wp {
 
 
 	// hide certain menu items from non-admin users
-	private function tamhsc_hide_menus_from_nonadmin() {
+	function tamhsc_hide_menus_from_nonadmin() {
 		if ( ! current_user_can('activate_plugins') ) {
 			remove_menu_page( 'jetpack' );
 			remove_menu_page( 'tools.php');
@@ -188,7 +157,7 @@ class tamhsc_custom_wp {
 
 
 	// add our favicon
-	private function tamhsc_blog_favicon() {
+	function tamhsc_blog_favicon() {
 		echo '<link rel="Shortcut Icon" type="image/x-icon" href="'.get_bloginfo('wpurl').'http:tamhsc.edu/favicon.ico" />';
 	}
 	add_action('wp_head', 'tamhsc_blog_favicon');
@@ -200,7 +169,7 @@ class tamhsc_custom_wp {
 		from: http://www.wpbeginner.com/wp-tutorials/how-to-remove-wordpress-dashboard-widgets/
 		and http://codex.wordpress.org/Dashboard_Widgets_API#Advanced:_Removing_Dashboard_Widgets
 	*/
-	private function tamhsc_remove_dashboard_widgets() {
+	function tamhsc_remove_dashboard_widgets() {
 		global $wp_meta_boxes;
 
 		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
@@ -225,7 +194,7 @@ class tamhsc_custom_wp {
 	/**************HSC Login page customizations**************/
 
 	// Custom login message (code from http://wpsnippy.com/2013/08/how-to-add-custom-text-to-wordpress-login-page/)
-	private function tamhsc_login_message( $message ) {
+	function tamhsc_login_message( $message ) {
 		if ( empty($message) ){
 			return "
 			<p class='message'>Log in using your TAMHSC username and password.</p>
@@ -244,7 +213,7 @@ class tamhsc_custom_wp {
 
 	// Change 'Username' to 'HSC Username' on login page
 	// code based on example at http://wpsnipp.com/index.php/functions-php/change-register-text-to-sign-up-on-login-page/
-	private function tamhsc_username_text( $translated ) {
+	function tamhsc_username_text( $translated ) {
 		$translated = str_ireplace(  'Username',  'TAMHSC Username',  $translated );
 		return $translated;
 	}
@@ -253,7 +222,7 @@ class tamhsc_custom_wp {
 
 
 	// css for changing the logo and a other visual elements on the login page
-	private function tamhsc_login_logo() { ?>
+	function tamhsc_login_logo() { ?>
 		<style type="text/css">
 			#login {
 				width: 320px;
@@ -297,14 +266,14 @@ class tamhsc_custom_wp {
 
 
 	// Change url and title for logo (from codex: )
-	private function tamhsc_login_logo_url() {
+	function tamhsc_login_logo_url() {
 		return get_bloginfo( 'url' );
 	}
 	add_filter( 'login_headerurl', 'tamhsc_login_logo_url' );
 
 
 	// Change title on login page
-	private function tamhsc_login_logo_url_title() {
+	function tamhsc_login_logo_url_title() {
 		return 'Texas A&amp;M Health Science Center';
 	}
 	add_filter( 'login_headertitle', 'tamhsc_login_logo_url_title' );
@@ -316,7 +285,7 @@ class tamhsc_custom_wp {
 		Hide update notifications for non admins
 		based on code available at http://premium.wpmudev.org/blog/hide-the-wordpress-update-notification/
 	*/
-	private function tamhsc_hide_update_notice() {
+	function tamhsc_hide_update_notice() {
 		if (!current_user_can('update_core')) {
 			remove_action( 'admin_notices', 'update_nag', 3 );
 			remove_action('load-update-core.php','wp_update_plugins');
@@ -334,7 +303,7 @@ class tamhsc_custom_wp {
 		https://wordpress.org/support/topic/remove-customize-from-admin-menu
 		http://wordpress.stackexchange.com/questions/4191/allow-editors-to-edit-menus
 	*/
-	private function tamhsc_remove_appearance_submenus() {
+	function tamhsc_remove_appearance_submenus() {
 		//pull value set in TAMHSC Customization options page
 		$options = get_option( 'tamhsc_settings' );
 		$display_menu = 0;
@@ -387,7 +356,7 @@ class tamhsc_custom_wp {
 		Disable wordpress disable auto linking of images
 		code from http://www.wpbeginner.com/wp-tutorials/automatically-remove-default-image-links-wordpress/
 	*/
-	private function tamhsc_image_link_setup() {
+	function tamhsc_image_link_setup() {
 		$image_set = get_option( 'image_default_link_type' );
 
 		if ($image_set !== 'none') {
@@ -406,7 +375,7 @@ class tamhsc_custom_wp {
 	*/
 
 	// Allow tags in WP-KSES
-	private function tamhsc_allow_tags() {
+	function tamhsc_allow_tags() {
 		global $allowedposttags;
 
 		$allowedposttags["object"] = array(
@@ -440,7 +409,7 @@ class tamhsc_custom_wp {
 
 
 	// Allow tags in TinyMCE
-	private function tamhsc_filter_tiny_mce_before_init( $options ) {
+	function tamhsc_filter_tiny_mce_before_init( $options ) {
 		if ( ! isset( $options['extended_valid_elements'] ) ) {
 			$options['extended_valid_elements'] = '';
 		} else {
@@ -467,5 +436,5 @@ class tamhsc_custom_wp {
 		return $options;
 	}
 	add_filter('tiny_mce_before_init', 'tamhsc_filter_tiny_mce_before_init');
-}
+
 ?>
