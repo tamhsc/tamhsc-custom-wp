@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: TAMHSC Customizations
+Plugin Name: TAMHSC Customization
 Description: Basic customization for wordpress, TAMHSC branded login, disable password reset, etc.
-Version: 1.4.4
+Version: 1.4.5
 Author: Jeremy Tarpley
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -289,7 +289,7 @@ require plugin_dir_path( __FILE__ ) . 'options.php';
 
 
 	/*
-		Allow editor's to see 'Appearance' menu and access 'Widgets' and 'Menus' submenues
+		Allow editors to see 'Appearance' menu and access 'Widgets' and 'Menus' sub-menus
 		but removes ability to see updates, change theme and customize menu.
 		Based on code available at
 		http://stackoverflow.com/questions/25788511/remove-submenu-page-customize-php-in-wordpress-4-0

@@ -1,1 +1,0 @@
-# tamhsc-custom-wp
