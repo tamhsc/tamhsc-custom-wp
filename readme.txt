@@ -31,7 +31,12 @@ Basic customization for wordpress, TAMHSC branded login, disable password reset,
 == Installation ==
 Since this plugin is just a few tweaks we make on TAMHSC websites, it will live in Github instead of Wordpress.org\'s plugin repository.  To install, download the latest zip or clone in your plugins folder.
 
+https://github.com/tamhsc/tamhsc-custom-wp/archive/master.zip
+or
+`git clone https://github.com/tamhsc/tamhsc-custom-wp`
+
 Automatic updating from Github requires the GitHub Updater plugin available at [codepress/github-plugin-updater]: https://codepress/github-plugin-updater
+The automatic updates work based on git tag.  The GitHub Updater compares the version of the currently installed plugin with the latest tag in the Git repository.
 
 
 
