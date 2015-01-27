@@ -45,6 +45,8 @@ The automatic updates work based on git tag.  The GitHub Updater compares the ve
 
 * Added plugin description, installation info and other metadata
 * Tested and verified that updating from Github works even if the plugin folder wasn\'t cloned from Git
+* Added default index.php and uninstall script from [Tom McFarlin\'s Wordpress plugin boilerplate]: https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate
+* Moved functionality into a separate class and broke code out into separate files and made other changes to better follow Wordpress coding conventions
 
 # 1.4.4
 
