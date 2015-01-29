@@ -59,9 +59,12 @@
 			return '0'; // return $state; // To leave XMLRPC intact and drop just Pingback
 		});
 
-		// Remove rsd_link from filters (<link rel="EditURI" />).
+		// Remove rsd_link from filters (<link rel="EditURI" />), remove links in head for things like the Comments rss feed.
 		add_action('wp', function(){
 			remove_action('wp_head', 'rsd_link');
+			remove_action( 'wp_head', 'feed_links', 2 );
+			remove_action( 'wp_head','feed_links_extra', 3 );
+			remove_action( 'wp_head', 'wlwmanifest_link');
 		}, 9);
 
 		// Hijack pingback_url for get_bloginfo (<link rel="pingback" />).
@@ -69,15 +72,14 @@
 			return ($property == 'pingback_url') ? null : $output;
 		}, 11, 2);
 
-		// Just disable pingback.ping functionality while leaving XMLRPC intact?
-		add_action('xmlrpc_call', function($method){
-			if($method != 'pingback.ping') return;
-			wp_die(
-				'Pingback functionality is disabled on this Blog.',
-				'Pingback Disabled!',
-				array('response' => 403)
-			);
-		});
+		// Disable pingback.ping functionality
+		function Remove_Pingback_Method( $methods ) {
+			unset( $methods['pingback.ping'] );
+			unset( $methods['pingback.extensions.getPingbacks'] );
+			return $methods;
+		}
+		add_filter( 'xmlrpc_methods', 'Remove_Pingback_Method' );
+
 	}
 	tamhsc_disable_stuff();
 
@@ -100,8 +102,7 @@
 		remove_theme_support( 'post-formats' );
 		add_filter( 'show_post_format_ui', '__return_false' );
 	}
-	// Use the after_setup_theme hook with a priority of 11 to load after the
-	// parent theme, which will fire on the default priority of 10
+	// Use the after_setup_theme hook with a priority of 11 to load after the parent theme, which will fire on the default priority of 10
 	add_action( 'after_setup_theme', 'tamhsc_remove_post_format', 11 );
 
 
@@ -203,6 +204,8 @@
 	}
 	add_filter( 'login_message', 'tamhsc_login_message' );
 
+
+
 	function tamhsc_login_footer_legal () {
 		$message = "<div id=\"tamhsc-legal\">
 		Unauthorized use is prohibited; usage may be subject to security testing and monitoring; misuse is subject to criminal prosecution;
@@ -222,6 +225,7 @@
 	}
 	add_filter(  'gettext',  'tamhsc_username_text'  );
 	add_filter(  'ngettext',  'tamhsc_username_text'  );
+
 
 
 	// css for changing the logo and a other visual elements on the login page
@@ -271,12 +275,12 @@
 	add_filter( 'login_headerurl', 'tamhsc_login_logo_url' );
 
 
+
 	// Change title on login page
 	function tamhsc_login_logo_url_title() {
 		return 'Texas A&amp;M Health Science Center';
 	}
 	add_filter( 'login_headertitle', 'tamhsc_login_logo_url_title' );
-
 
 
 
