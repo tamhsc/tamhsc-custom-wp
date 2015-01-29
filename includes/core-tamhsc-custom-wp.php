@@ -158,7 +158,7 @@
 
 	// add our favicon
 	function tamhsc_blog_favicon() {
-		echo '<link rel="Shortcut Icon" type="image/x-icon" href="'.get_bloginfo('wpurl').'http:tamhsc.edu/favicon.ico" />';
+		echo '<link rel="Shortcut Icon" type="image/x-icon" href="http://tamhsc.edu/favicon.ico" />';
 	}
 	add_action('wp_head', 'tamhsc_blog_favicon');
 
@@ -352,7 +352,7 @@
 
 
 	/*
-		Disable wordpress disable auto linking of images
+		Disable wordpress auto linking of images
 		code from http://www.wpbeginner.com/wp-tutorials/automatically-remove-default-image-links-wordpress/
 	*/
 	function tamhsc_image_link_setup() {
