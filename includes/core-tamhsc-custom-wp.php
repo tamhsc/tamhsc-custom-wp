@@ -381,30 +381,48 @@
 	function tamhsc_allow_tags() {
 		global $allowedposttags;
 
-		$allowedposttags["object"] = array(
-		"height" => array(),
-		"width" => array()
+		$allowedposttags['object'] = array(
+			'height' => array(),
+			'width' => array(),
+			'name' => array(),
+			'type' => array(),
+			'allowfullscreen' => array(),
+			'allowscriptaccess' => array(),
+			'xmlns:dc' => array(),
+			'xmlns:media' => array(),
+			'rel' => array(),
+			'resource' => array(),
+			'data' => array()
 		);
 
-		$allowedposttags["param"] = array(
-		"name" => array(),
-		"value" => array()
+		$allowedposttags['param'] = array(
+			'name' => array(),
+			'value' => array()
 		);
 
-		$allowedposttags["embed"] = array(
-		"src" => array(),
-		"type" => array(),
-		"allowfullscreen" => array(),
-		"allowscriptaccess" => array(),
-		"height" => array(),
-		"width" => array()
+		$allowedposttags['embed'] = array(
+			'src' => array(),
+			'type' => array(),
+			'allowfullscreen' => array(),
+			'allowscriptaccess' => array(),
+			'height' => array(),
+			'width' => array()
 		);
 
 		$allowedposttags['script'] = array(
-		'type' => array(),
-		'src' => array(),
-		'height' => array(),
-		'width' => array()
+			'type' => array(),
+			'src' => array(),
+			'height' => array(),
+			'width' => array()
+		);
+
+
+		$allowedposttags['span'] = array(
+			'property' => array(),
+			'content' => array(),
+			'title' => array(),
+			'tabindex' => array(),
+			'accesskey' => array()
 		);
 	}
 	add_action( 'init', 'tamhsc_allow_tags' );
@@ -425,8 +443,8 @@
 			$options['custom_elements'] .= ',';
 		}
 
-		$options['extended_valid_elements'] .= 'object[height|width|id|class]';
-		$options['custom_elements']         .= 'object[height|width|id|class]';
+		$options['extended_valid_elements'] .= 'object[height|width|id|class|name|type|allowfullscreen|allowscriptaccess|xmlns:dc|xmlns:media|rel|resource|data]';
+		$options['custom_elements']         .= 'object[height|width|id|class|name|type|allowfullscreen|allowscriptaccess|xmlns:dc|xmlns:media|rel|resource|data]';
 
 		$options['extended_valid_elements'] .= 'param[name|value|id|class]';
 		$options['custom_elements']         .= 'param[name|value|id|class]';
@@ -434,8 +452,12 @@
 		$options['extended_valid_elements'] .= 'embed[src|type|allowfullscreen|allowscriptaccess|height|width|id|class]';
 		$options['custom_elements']         .= 'embed[src|type|allowfullscreen|allowscriptaccess|height|width|id|class]';
 
-		$options['extended_valid_elements'] .= 'script[type|src|height|width|id|class]';
-		$options['custom_elements']         .= 'script[type|src|height|width|id|class]';
+		$options['extended_valid_elements'] .= 'script[type|src|id|class]';
+		$options['custom_elements']         .= 'script[type|src|id|class]';
+
+		$options['extended_valid_elements'] .= 'span[property|content|id|class|accesskey|style|tabindex|title]';
+		$options['custom_elements']         .= 'span[property|content|id|class|accesskey|style|tabindex|title]';
+
 		return $options;
 	}
 	add_filter('tiny_mce_before_init', 'tamhsc_filter_tiny_mce_before_init');
