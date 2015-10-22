@@ -54,10 +54,6 @@
 			return $headers;
 		}, 11, 2);
 
-		// Disable XMLRPC by hijacking and blocking the option.
-		add_filter('pre_option_enable_xmlrpc', function($state){
-			return '0'; // return $state; // To leave XMLRPC intact and drop just Pingback
-		});
 
 		// Remove rsd_link from filters (<link rel="EditURI" />), remove links in head for things like the Comments rss feed.
 		add_action('wp', function(){
@@ -67,18 +63,32 @@
 			remove_action( 'wp_head', 'wlwmanifest_link');
 		}, 9);
 
+
 		// Hijack pingback_url for get_bloginfo (<link rel="pingback" />).
 		add_filter('bloginfo_url', function($output, $property){
 			return ($property == 'pingback_url') ? null : $output;
 		}, 11, 2);
 
-		// Disable pingback.ping functionality
-		function Remove_Pingback_Method( $methods ) {
+
+		// Disable parts of xml-rpc
+		function tamhsc_remove_some_xmlrpc_methods ( $methods ) {
+			// Disable vector for brute force login attempts via xml-rpc, from https://blog.cloudflare.com/a-look-at-the-new-wordpress-brute-force-amplification-attack/
+			unset( $methods['system.multicall'] );
+
+			// Disable pingback.ping functionality
 			unset( $methods['pingback.ping'] );
 			unset( $methods['pingback.extensions.getPingbacks'] );
 			return $methods;
 		}
-		add_filter( 'xmlrpc_methods', 'Remove_Pingback_Method' );
+		add_filter( 'xmlrpc_methods', 'tamhsc_remove_some_xmlrpc_methods' );
+
+
+		/*
+			Nuclear option - disable xml-rpc, this seems to be a recurring vector for attack
+			Semi-redundant, many of the functions above remove xml-rpc functionallity
+		 */
+		add_filter('xmlrpc_enabled', '__return_false');
+
 
 	}
 	tamhsc_disable_stuff();
@@ -229,21 +239,23 @@
 
 
 	// css for changing the logo and a other visual elements on the login page
-	function tamhsc_login_logo() { ?>
+	function tamhsc_login_logo() {
+		$plugin_imgs_url = plugins_url('/images/', __FILE__); ?>
 		<style type="text/css">
 			#login {
 				width: 320px;
+				padding: 4% 0 0 0;
 			}
 			body.login div#login h1 a {
-				background-image: url(https://webassets.tamhsc.edu/global-assets/images/logos/tamhsc-stacked-logo-maroon.png);
+				background-image: url(<?php echo $plugin_imgs_url . 'tamhsc-stacked-logo-maroon.png'; ?>);
 				padding-bottom: 8px;
-				height: 105.84px;
-				width: 280px;
+				height: 91px;
+				width: 240px;
 			}
 			.login h1 a {
-				background-size: 280px 105.84px;
-				height: 105.84px;
-				width: 280px;
+				background-size: 240px 91px;
+				height: 91px;
+				width: 240px;
 				margin-left: auto;
 				margin-right: auto;
 			}

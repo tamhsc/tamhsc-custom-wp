@@ -2,7 +2,7 @@
 
 Contributors: jeremytarpley
 Requires at least: 4.0
-Tested up to: 4.1
+Tested up to: 4.3.1
 Stable tag: trunk
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -42,6 +42,15 @@ The automatic updates work based on git tag.  The GitHub Updater compares the ve
 
 
 == Changelog ==
+# 1.4.8
+
+* Totally disabled xml-rpc. Its a constant vector for attack and other than some Jetpack functionallity, I don't know of any tools we are using that rely on it.
+* Made logo a little smaller and a few cosmetic fixes on login page
+
+# 1.4.7
+
+* Updated to allow embedding Kaltura videos.  Editor no longer strips html tags and attributes from Kaltura embed code.
+
 # 1.4.6
 
 * Fixed items that broke after refactoring the code
