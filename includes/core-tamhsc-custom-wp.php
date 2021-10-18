@@ -218,8 +218,11 @@
 
 	function tamhsc_login_footer_legal () {
 		$message = "<div id=\"tamhsc-legal\">
-		Unauthorized use is prohibited; usage may be subject to security testing and monitoring; misuse is subject to criminal prosecution;
-		and users have no expectation of privacy except as otherwise provided by applicable privacy laws.
+		This computer system and the data herein are available only for authorized purposes by authorized users. 
+		Use for any other purpose is prohibited and may result in disciplinary actions or criminal prosecution against the user.
+		Usage may be subject to security testing and monitoring. 
+		There is no expectation of privacy on this system except as otherwise provided by applicable privacy laws. 
+		Refer to University SAP 29.01.03.M0.02 Acceptable Use https://rules-saps.tamu.edu/PDFs/29.01.03.M0.02.pdf for more information.
 		</div>";
 		echo $message;
 	}
